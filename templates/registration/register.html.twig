@@ -1,0 +1,103 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Quart de Tour{% endblock %}
+ {% block Head %}
+        {{ parent() }}
+{% block LinksCss %}
+     {{ parent() }} 
+
+     {% endblock %}
+    
+    {% endblock %}
+{% block Content %}
+<section class="gry-bg py-4" style="background-color: rgba(26, 26, 46, 0.95);">
+		<div class="profile">
+			<div class="container">
+				<div class="row">
+					<div class="col-xxl-4 col-xl-5 col-lg-6 col-md-8 mx-auto">
+						<div class="card" style="background-color: rgba(26, 26, 46, 0.95);">
+							<div class="text-center pt-4">
+								<h1 class="h4 fw-600" style="color: #fff;">
+									Créer un compte
+								</h1>
+							</div>
+							<div class="px-4 py-3 py-lg-4">
+								<div class="">
+                               
+									<form id="reg-form" class="form-default" role="form" method="POST">
+                                      {{ form_start(registrationForm) }}
+										<input type="hidden" name="_token" value="iERnFhy1xhueR40D0AhNEVKjoxkPSR8Wh00fNIF6">
+										
+
+										<div class="form-group phone-form-group mb-1"></div>
+
+                                        <div class="form-group email-form-group ">
+										
+											{{ form_row(registrationForm.nom, {'attr': {'class': 'form-control','placeholder':'Nom'}}) }}
+										</div>
+                                        <div class="form-group email-form-group ">
+										
+											{{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control','placeholder':'Prenom'}}) }}
+										</div>
+
+										<div class="form-group phone-form-group ">
+											{{ form_row(registrationForm.adresse, {'attr': {'class': 'form-control','placeholder':'Adresse', 'id': 'registration_telephone'  }}) }}
+										</div>
+                                        <div class="form-group phone-form-group ">
+											{{ form_row(registrationForm.roles, {'attr': {'class': 'form-control','placeholder':'Adresse', 'id': 'registration_telephone'  }}) }}
+										</div>
+                                        <div class="form-group phone-form-group ">
+											{{ form_row(registrationForm.tel1, {'attr': {'class': 'form-control','placeholder':'Telephone 1', 'id': 'registration_telephone'  }}) }}
+										</div>
+                                         <div class="form-group phone-form-group ">
+											{{ form_row(registrationForm.tel2, {'attr': {'class': 'form-control','placeholder':'Telephone 2', 'id': 'registration_telephone'  }}) }}
+										</div>
+										
+										<div class="form-group email-form-group ">
+											{{ form_row(registrationForm.email, {'attr': {'class': 'form-control','placeholder':'Email' }}) }}
+										</div>
+										
+                                        <div class="form-group email-form-group " style="margin-bottom: 16px;">
+										
+											{{ form_row(registrationForm.plainPassword, {'attr':{'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+										</div>
+										
+
+										<div class="form-group text-right"></div>
+
+										
+                                       {#
+
+										<div class="form-group">
+											<input type="password" class="form-control" placeholder="Confirm mot de passe " name="password_confirmation" required>
+										</div>
+                                        #}
+										<div class="form-group">
+											<div class="g-recaptcha" data-sitekey="6Ld_nrsZAAAAAO-MowQQPfbD9yoio52GiMgUrmRX"></div>
+										</div>
+
+										
+
+										<div class="mb-5">
+											<button type="submit" class="btn btn-primary btn-block fw-600">Créer un compte</button>
+										</div>
+                                        {{ form_end(registrationForm) }}
+									</form>
+                                    
+								</div>
+								<div class="text-center">
+									<p class="text-muted mb-0">Vous avez déja un compte?</p>
+									<a href="{{path('app_login')}}">Connexion</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+   
+{% endblock %}
