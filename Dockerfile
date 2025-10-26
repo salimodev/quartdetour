@@ -18,6 +18,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . /var/www/html
 
+ENV APP_ENV=prod
+
 RUN mkdir -p /var/www/html/var /var/www/html/vendor
 
 RUN php -d memory_limit=-1 /usr/bin/composer install --no-dev --optimize-autoloader --ignore-platform-reqs
