@@ -202,7 +202,13 @@ function cloudDinaryCreationLogomarque() {
   });
 }
 
-let tablePieces = $('#tab1').DataTable();
+var tablePieces = $('#tab').DataTable({
+    responsive: true, // Rend le tableau adaptatif sur mobile
+    language: {
+        url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/fr-FR.json"
+    },
+    
+});
 
 function ajouterpiece() {
     let designation = $('#convert_text').val();

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: quartdetour_app
+    ports:
+      - "80:80"
+    environment:
+      DATABASE_URL: "mysql://symfony:motdepasse@db:3306/quartdetour?serverVersion=8.0"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: quartdetour
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: motdepasse
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: symfony
+      PMA_PASSWORD: motdepasse
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
