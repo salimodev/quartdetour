@@ -21,11 +21,14 @@ WORKDIR /var/www/html
 # Copier le projet
 COPY . /var/www/html
 
-# Donner les droits nécessaires
-RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
+# Créer les dossiers var et vendor s'ils n'existent pas
+RUN mkdir -p /var/www/html/var /var/www/html/vendor
 
 # Installer les dépendances PHP avec Composer
 RUN php -d memory_limit=-1 /usr/bin/composer install --no-dev --optimize-autoloader
+
+# Donner les droits nécessaires après l'installation de Composer
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
 # Exposer le port
 EXPOSE 80
