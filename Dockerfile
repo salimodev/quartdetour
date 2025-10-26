@@ -1,40 +1,34 @@
-# Utilise l’image officielle FrankenPHP
-FROM dunglas/frankenphp
+# Image PHP officielle avec FPM
+FROM php:8.2-fpm
 
-# Variables d'environnement
-ENV SERVER_NAME=ton-domaine.com
-ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
-ENV APP_ENV=prod
-ENV FRANKENPHP_CONFIG="worker ./public/index.php"
-
-# Installation des dépendances système + extensions PHP utiles
+# Installer les dépendances nécessaires pour Symfony et Composer
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
-    libpq-dev \
     libicu-dev \
+    libonig-dev \
     libzip-dev \
-    zip \
-    && docker-php-ext-install intl pdo pdo_mysql zip opcache \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libxml2-dev \
+    mariadb-client \
+    && docker-php-ext-install intl mbstring pdo pdo_mysql zip opcache
 
-# Installer Composer (copié depuis l’image officielle Composer)
+# Copier Composer depuis l'image officielle
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Définir le répertoire de travail
-WORKDIR /app
+WORKDIR /var/www/html
 
-# Copier le projet Symfony dans le conteneur
-COPY . .
+# Copier le projet
+COPY . /var/www/html
 
-# Installer les dépendances Symfony (prod)
-RUN composer install --no-dev --optimize-autoloader
+# Donner les droits nécessaires
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
-# Donner les bons droits à Symfony
-RUN chown -R www-data:www-data /app/var
+# Installer les dépendances PHP avec Composer
+RUN php -d memory_limit=-1 /usr/bin/composer install --no-dev --optimize-autoloader
 
-# Port exposé par FrankenPHP
+# Exposer le port
 EXPOSE 80
 
-# Lancer FrankenPHP
-CMD ["frankenphp", "run", "--config", "worker ./public/index.php"]
+# Commande pour démarrer PHP-FPM
+CMD ["php-fpm"]
