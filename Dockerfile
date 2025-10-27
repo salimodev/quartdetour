@@ -27,4 +27,4 @@ RUN php -d memory_limit=-1 /usr/bin/composer install --no-dev --optimize-autoloa
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
 EXPOSE 80
-CMD ["php-fpm"]
+CMD ["php", "-S" , "0.0.0.0:80", "-t", "public"]
